@@ -30,10 +30,15 @@ An element can be defined in form of webdriverIO selector or as an instance of t
 
 Each not top-level component should have selector element in form of webdriverIO selector.
 ```javascript
-const { $, $$ } = require('@qavajs/po');
+const { $, $$, Component } = require('@qavajs/po');
 
 class MultipleComponent {
     selector = '.list-components li';
+    ChildItem = $('div');
+}
+
+//component declared via Component extension
+class MultipleComponent2 extends Component {
     ChildItem = $('div');
 }
 
@@ -47,6 +52,7 @@ class App {
     List = $$('.list li');
     SingleComponent = $(new SingleComponent());
     MultipleComponents = $$(new MultipleComponent());
+    MultupleComponents2 = $$(new MultipleComponent2('.list-components li'));
 }
 
 module.exports = new App();
