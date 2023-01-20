@@ -41,12 +41,13 @@ class PO {
      * @private
      * @param {*} element
      * @param {*} po
-     * @param {*} token
+     * @param {Token} token
+     * @param {{elementName: string}} token
      * @returns
      */
     async getEl(element, po, token) {
-        const currentElement = await element;
         const newPo = po[token.elementName.replace(/\s/g, '')];
+        const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo) throw new Error(`${token.elementName} is not found`);
         if (!newPo.isCollection && token.suffix) throw new Error(`Unsupported operation. ${token.elementName} is not collection`);
 

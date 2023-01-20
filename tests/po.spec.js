@@ -4,6 +4,7 @@ const po = require('../src/PO');
 const samplePO = require('./samplePO');
 
 beforeAll(async () => {
+    console.log(remote)
     const driver = await remote({
         logLevel: 'warn',
         capabilities: {
