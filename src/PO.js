@@ -47,8 +47,8 @@ class PO {
      */
     async getEl(element, po, token) {
         const newPo = po[token.elementName.replace(/\s/g, '')];
-        const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo) throw new Error(`${token.elementName} is not found`);
+        const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo.isCollection && token.suffix) throw new Error(`Unsupported operation. ${token.elementName} is not collection`);
 
         if (Array.isArray(currentElement)) {
