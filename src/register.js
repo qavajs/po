@@ -1,29 +1,32 @@
 /**
  * register element in page object
  * @param {string|object} definition
- * @param {boolean} isCollection 
- * @returns { definition, isCollection }
+ * @param {boolean} isCollection
+ * @param {{ ignoreHierarchy }} options - page object definition options
+ * @returns {{ definition, isCollection, ignoreHierarchy }}
  */
-function register(definition, isCollection) {
-    if (!definition) throw new Error('selector or component should be passed');
+function register(definition, isCollection, options = { ignoreHierarchy: false }) {
+    if (!definition) throw new Error('Selector or component should be passed!');
     if (typeof definition === 'object') {
         return {
             ...definition,
-            isCollection
+            isCollection,
+            ...options
         }
     }
     return {
         selector: definition,
-        isCollection
+        isCollection,
+        ...options
     }
 }
 
-function $(definition) {
-    return register(definition, false)
+function $(definition, options) {
+    return register(definition, false, options)
 }
 
-function $$(definition) {
-    return register(definition, true)
+function $$(definition, options) {
+    return register(definition, true, options)
 }
 
 module.exports = {
