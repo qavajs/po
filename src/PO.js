@@ -5,7 +5,7 @@ class PO {
 
     init(driver, options = { timeout: 2000 }) {
         /**
-         * @type { import('webdriverio').BrowserBase }
+         * @type { import('webdriverio').Browser }
          */
         this.driver = driver;
         this.config = {};
@@ -42,7 +42,6 @@ class PO {
      * @param {*} element
      * @param {*} po
      * @param {Token} token
-     * @param {{elementName: string}} token
      * @returns
      */
     async getEl(element, po, token) {
@@ -50,6 +49,8 @@ class PO {
         if (!newPo) throw new Error(`${token.elementName} is not found`);
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo.isCollection && token.suffix) throw new Error(`Unsupported operation. ${token.elementName} is not collection`);
+        if (newPo.isCollection && !newPo.selector) throw new Error(`Unsupported operation. ${token.elementName} selector property is required as it is collection`);
+        if (!newPo.selector) return [currentElement, newPo];
 
         if (Array.isArray(currentElement)) {
             if (!newPo.isCollection) return [
@@ -196,7 +197,7 @@ class PO {
     }
 
     async getChildNotFound(parentElement, {value, suffix, elementName}) {
-        return parentElement.$(`ElementNotExist-${value}-${suffix}-${elementName}`.replace(/[\W]/g, ''))
+        return parentElement.$(`ElementNotExist-${value}-${suffix}-${elementName}`.replace(/\W/g, ''))
     }
 
 }
