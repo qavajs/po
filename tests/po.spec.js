@@ -161,6 +161,22 @@ describe('po', () => {
         expect(shouldThrow).to.throw('Selector or component should be passed!');
     });
 
+    it('get element from component without selector', async () => {
+        const element = await po.getElement('Component Without Selector > Single Element');
+        const text = await element.getText();
+        expect(text).to.equal('text of single element');
+    });
+
+    it('get element from collection from component without selector', async () => {
+        const element = await po.getElement('Component Without Selector > #2 of List');
+        expect(await element.getText()).to.equal('Second');
+    });
+
+    it('throw an error if component without selector registered as collection', async () => {
+        const shouldThrow = async () => await po.getElement('#1 of Components Without Selector > #2 of List');
+        await expect(shouldThrow()).to.eventually.be.rejectedWith('Unsupported operation. Components Without Selector selector property is required as it is collection');
+    });
+
     after(async () => {
         await po.driver.deleteSession();
     })
