@@ -6,7 +6,10 @@
   "scripts": {
     "test": "nyc mocha --spec tests/*.spec.js --timeout 10000"
   },
-  "author": "Alexander Galichenko",
+  "authors": [
+    "Alexander Galichenko",
+    "Alexandr Legchilov"
+    ],
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.3.7",
