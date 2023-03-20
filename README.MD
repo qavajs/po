@@ -10,7 +10,7 @@ Lib provides getElement method that resolves plain-english selector and return w
 ```javascript
 const { po } = require('@qavajs/po');
 
-When(/^click '(.+)'$/, async function (alias) {
+When('I click {string}', async function (alias) {
     const element = await po.getElement(alias);
     await element.waitForClickable();
     await element.click();
@@ -18,7 +18,11 @@ When(/^click '(.+)'$/, async function (alias) {
 ```
 
 ```gherkin
-When click '#1 of Multiple Component > Child Item'
+When I click '#1 of Multiple Component > Child Item'
+When I click '#some text in Multiple Component > Child Item'
+When I click '@some exact text in Multiple Component > Child Item'
+When I click '/regexp/ in Multiple Component > Child Item'
+
 ```
 
 Lib provides capability to get single element from collection by index (#index of Collection) or inner text (#text in Collection).

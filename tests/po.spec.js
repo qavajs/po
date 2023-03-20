@@ -54,6 +54,11 @@ describe('po', () => {
         expect(await element.getText()).to.equal('Third');
     });
 
+    it('get element from collection by regexp', async () => {
+        const element = await po.getElement('/Thi/ in List');
+        expect(await element.getText()).to.equal('Third');
+    });
+
     it('get element from component', async () => {
         const element = await po.getElement('Single Component > Child Item');
         expect(await element.getText()).to.equal('text of first child item');

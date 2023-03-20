@@ -1,9 +1,14 @@
 const parseTokens = require('./parseTokens');
 const TICK_INTERVAL = 500;
+const textConditions = {
+    '#': token => text => text.includes(token.value),
+    '@': token => text => text === token.value,
+    '/': token => text => new RegExp(token.value, 'gmi').test(text)
+};
 
 class PO {
 
-    init(driver, options = { timeout: 2000 }) {
+    init(driver, options = {timeout: 2000}) {
         /**
          * @type { import('webdriverio').Browser }
          */
@@ -87,44 +92,38 @@ class PO {
     }
 
     /**
+     * Get element from collection by text
      * @private
      * @param {*} element
      * @param {*} po
      * @param {*} token
-     * @returns
+     * @returns {Element}
      */
     async getElementByText(element, po, token) {
-        let condition;
-        if (token.prefix === '#') {
-            condition = (text) => text.includes(token.value);
-        }
-        if (token.prefix === '@') {
-            condition = (text) => text === token.value;
-        }
-        return new Promise((resolve, reject) => {
-            let timer = 0;
-            const waitInterval = setInterval(async () => {
-                timer += TICK_INTERVAL;
-                if (timer > this.config.timeout) {
-                    clearInterval(waitInterval);
-                    return resolve(this.getChildNotFound(element, token));
-                }
+        const condition = textConditions[token.prefix](token);
+        const timeoutMsg = 'element is not found by text';
+        try {
+            const el = await this.driver.waitUntil(async () => {
                 try {
                     const collection = await this.getCollection(element, po.selector);
                     for (const el of collection) {
                         let text = await el.getText();
                         if (text === undefined) text = await this.driver.execute(e => e.textContent, el);
                         if (condition(text)) {
-                            clearInterval(waitInterval);
-                            return resolve(el);
+                            return el;
                         }
                     }
-                } catch (err) {
-                    clearInterval(waitInterval);
-                    return reject(err);
-                }
-            }, TICK_INTERVAL);
-        });
+                } catch (err) {}
+            }, {
+                timeout: this.config.timeout,
+                interval: TICK_INTERVAL,
+                timeoutMsg
+            });
+            return el
+        } catch (err) {
+            if (!err.message.includes(timeoutMsg)) throw err
+            return this.getChildNotFound(element, token)
+        }
     }
 
     /**
@@ -150,27 +149,30 @@ class PO {
      * @returns
      */
     async getElementByIndex(element, po, token) {
+        const timeoutMsg = 'element is not found by index';
         const index = parseInt(token.value) - 1;
-        return new Promise((resolve, reject) => {
-            let timer = 0;
-            const waitInterval = setInterval(async () => {
-                timer += TICK_INTERVAL;
-                if (timer > this.config.timeout) {
-                    clearInterval(waitInterval);
-                    return resolve(this.getChildNotFound(element, token));
-                }
+        try {
+            const el = await this.driver.waitUntil(async () => {
                 try {
                     const collection = await this.getCollection(element, po.selector);
                     if (collection.length > index) {
-                        clearInterval(waitInterval);
-                        return resolve(collection[index]);
+                        return collection[index]
                     }
                 } catch (err) {
-                    clearInterval(waitInterval);
-                    return reject(err);
                 }
-            }, TICK_INTERVAL);
-        });
+            }, {
+                timeout: this.config.timeout,
+                interval: TICK_INTERVAL,
+                timeoutMsg
+            });
+            return el
+        } catch (err) {
+            if (err.message.includes(timeoutMsg)) {
+                return this.getChildNotFound(element, token)
+            } else {
+                throw err
+            }
+        }
     }
 
     async getCollection(element, selector) {
