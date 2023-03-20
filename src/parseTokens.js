@@ -1,5 +1,5 @@
 const SPLIT_TOKENS_REGEXP = /\s*>\s*/;
-const PARSE_TOKEN_REGEXP = /^(?<prefix>[#@])(?<value>.+)\s(?<suffix>of|in)\s(?<elementName>.+)$/
+const PARSE_TOKEN_REGEXP = /^(?<prefix>[#@/])(?<value>.+)\s(?<suffix>of|in)\s(?<elementName>.+)$/
 
 class Token {
     constructor({ elementName, prefix, value, suffix }) {
@@ -7,6 +7,9 @@ class Token {
         this.prefix = prefix;
         this.value = value;
         this.suffix = suffix;
+        if (prefix === '/' && value[value.length - 1] === '/') {
+            this.value = value.slice(0, value.length - 1);
+        }
     }
 }
 
