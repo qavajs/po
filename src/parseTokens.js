@@ -11,29 +11,53 @@ class Token {
             this.value = value.slice(0, value.length - 1);
         }
     }
+
 }
 
 /**
  * Parse string to array of tokens
- * @param {string} path
+ * @param {string} query - query to access element
  * @return {Array<Token>}
  */
-function parseTokens(path) {
-    const tokens = path.split(SPLIT_TOKENS_REGEXP);
+function parseTokens(query) {
+    const tokens = query.split(SPLIT_TOKENS_REGEXP);
     return tokens.map(token)
 }
 
 /**
+ * Check if provided query is valid
+ * @param {Token} props - token props
+ * @param {string} query - original query
+ */
+function checkQuery(props, query) {
+    const header = `Query '${query}' is not well formed!\n`
+    if (props.suffix === 'of' && props.prefix !== '#') {
+        throw new Error(header + `'${props.prefix}' is not allowed with 'of'`);
+    }
+    if (props.prefix === '#' && props.suffix === 'of' && Number.isNaN(parseInt(props.value))) {
+        throw new Error(header + `provided value '${props.value}' is not a number`);
+    }
+    if (props.prefix === '#' && props.suffix === 'of' && props.value === '0') {
+        throw new Error(header + `zero index is not allowed`);
+    }
+    if (props.prefix === '/' && !props.value.endsWith('/')) {
+        throw new Error(header + `regexp does not have closing tag /`);
+    }
+}
+
+/**
  *
- * @param {string} value
+ * @param {string} query
  * @return {Token}
  */
-function token(value) {
-    if (PARSE_TOKEN_REGEXP.test(value)) {
-        return new Token({...PARSE_TOKEN_REGEXP.exec(value).groups})
+function token(query) {
+    if (PARSE_TOKEN_REGEXP.test(query)) {
+        const props = {...PARSE_TOKEN_REGEXP.exec(query).groups};
+        checkQuery(props, query);
+        return new Token(props)
     }
     return new Token({
-        elementName: value
+        elementName: query
     })
 }
 
