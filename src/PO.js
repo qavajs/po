@@ -101,19 +101,20 @@ class PO {
      */
     async getElementByText(element, po, token) {
         const condition = textConditions[token.prefix](token);
+        if (!condition) {
+            throw new Error(`Unsupported operation. Prefix '${token.prefix}' is not supported`);
+        }
         const timeoutMsg = 'element is not found by text';
         try {
             const el = await this.driver.waitUntil(async () => {
-                try {
-                    const collection = await this.getCollection(element, po.selector);
-                    for (const el of collection) {
-                        let text = await el.getText();
-                        if (text === undefined) text = await this.driver.execute(e => e.textContent, el);
-                        if (condition(text)) {
-                            return el;
-                        }
+                const collection = await this.getCollection(element, po.selector);
+                for (const el of collection) {
+                    let text = await el.getText();
+                    if (text === undefined) text = await this.driver.execute(e => e.textContent, el);
+                    if (condition(text)) {
+                        return el;
                     }
-                } catch (err) {}
+                }
             }, {
                 timeout: this.config.timeout,
                 interval: TICK_INTERVAL,
@@ -121,8 +122,10 @@ class PO {
             });
             return el
         } catch (err) {
-            if (!err.message.includes(timeoutMsg)) throw err
-            return this.getChildNotFound(element, token)
+            if (err.message.includes(timeoutMsg)) {
+                return this.getChildNotFound(element, token);
+            }
+            throw err;
         }
     }
 
@@ -153,12 +156,9 @@ class PO {
         const index = parseInt(token.value) - 1;
         try {
             const el = await this.driver.waitUntil(async () => {
-                try {
-                    const collection = await this.getCollection(element, po.selector);
-                    if (collection.length > index) {
-                        return collection[index]
-                    }
-                } catch (err) {
+                const collection = await this.getCollection(element, po.selector);
+                if (collection.length > index) {
+                    return collection[index]
                 }
             }, {
                 timeout: this.config.timeout,
