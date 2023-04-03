@@ -179,7 +179,7 @@ describe('po', () => {
 
     it('throw an error if component without selector registered as collection', async () => {
         const shouldThrow = async () => await po.getElement('#1 of Components Without Selector > #2 of List');
-        await expect(shouldThrow()).to.eventually.be.rejectedWith('Unsupported operation. Components Without Selector selector property is required as it is collection');
+        await expect(shouldThrow()).to.eventually.be.rejectedWith(`Element 'Components Without Selector' selector property is required as it is collection`);
     });
 
     after(async () => {

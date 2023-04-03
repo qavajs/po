@@ -68,6 +68,8 @@ class PO {
         for (const token of poTokens) {
             po = po[token.elementName.replace(/\s/g, '')];
             if (!po) throw new Error(`Element '${token.elementName}' is not found in page object`);
+            if (!po.isCollection && token.suffix) throw new Error(`Element '${token.elementName}' is not collection`);
+            if (po.isCollection && !po.selector) throw new Error(`Element '${token.elementName}' selector property is required as it is collection`);
         }
     }
 
@@ -81,8 +83,6 @@ class PO {
     async getEl(element, po, token) {
         const newPo = po[token.elementName.replace(/\s/g, '')];
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
-        if (!newPo.isCollection && token.suffix) throw new Error(`Unsupported operation. ${token.elementName} is not collection`);
-        if (newPo.isCollection && !newPo.selector) throw new Error(`Unsupported operation. ${token.elementName} selector property is required as it is collection`);
         if (!newPo.selector) return [currentElement, newPo];
 
         if (Array.isArray(currentElement)) {
