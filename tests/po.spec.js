@@ -127,7 +127,7 @@ describe('po', () => {
 
     it('get element not existing in po', async () => {
         const shouldThrow = async () => await po.getElement('There Is No Element');
-        await expect(shouldThrow()).to.eventually.be.rejectedWith('There Is No Element is not found');
+        await expect(shouldThrow()).to.eventually.be.rejectedWith(`Element 'There Is No Element' is not found in page object`);
     });
 
 

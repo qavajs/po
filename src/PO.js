@@ -26,7 +26,7 @@ class PO {
     async getElement(path) {
         if (!this.driver) throw new Error('Driver is not attached. Call po.init(driver)');
         const timeoutMsg = `Element '${path}' is not found`;
-
+        this.checkPO(path);
         try {
             const el = await this.driver.waitUntil(async () => {
                 const tokens = parseTokens(path);
@@ -59,6 +59,19 @@ class PO {
     }
 
     /**
+     * Verify existence of PO tokens
+     * @param path
+     */
+    checkPO(path) {
+        const poTokens = parseTokens(path);
+        let po = this;
+        for (const token of poTokens) {
+            po = po[token.elementName.replace(/\s/g, '')];
+            if (!po) throw new Error(`Element '${token.elementName}' is not found in page object`);
+        }
+    }
+
+    /**
      * @private
      * @param {*} element
      * @param {*} po
@@ -67,7 +80,6 @@ class PO {
      */
     async getEl(element, po, token) {
         const newPo = po[token.elementName.replace(/\s/g, '')];
-        if (!newPo) throw new Error(`${token.elementName} is not found`);
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo.isCollection && token.suffix) throw new Error(`Unsupported operation. ${token.elementName} is not collection`);
         if (newPo.isCollection && !newPo.selector) throw new Error(`Unsupported operation. ${token.elementName} selector property is required as it is collection`);
