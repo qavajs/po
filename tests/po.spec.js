@@ -91,13 +91,13 @@ describe('po', () => {
     });
 
     it('get element that not exist in collection by text', async () => {
-        const element = await po.getElement('#notexist in List');
+        const element = await po.getElement('#notexist in List', { immediate: true });
         expect(await element.isExisting()).to.equal(false);
         expect(await element.isDisplayed()).to.equal(false);
     });
 
     it('get element that not exist in collection by index', async () => {
-        const element = await po.getElement('#42 of List');
+        const element = await po.getElement('#42 of List', { immediate: true });
         expect(await element.isExisting()).to.equal(false);
         expect(await element.isDisplayed()).to.equal(false);
     });

@@ -100,3 +100,12 @@ class ChildComponent {
     Element = $('.someElement');
 }
 ```
+
+## Immediate option
+In order you don't need to retry query for elements exists you can pass { immediate: true } option
+```javascript
+When('I wait {string} not to be present', async function (alias) {
+    const element = await po.getElement(alias, { immediate: true }); // in case if element not found dummy not existing element be returned
+    await element.waitForExist({ reverse: true });
+});
+```

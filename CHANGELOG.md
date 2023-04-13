@@ -7,6 +7,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [1.4.0]
 - :rocket: added element query validation
 - :rocket: added auto-retry for element
+- :rocket: added immediate flag to skip auto-retry
 
 ## [1.3.0]
 - :rocket: added text selector by regexp

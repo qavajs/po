@@ -6,7 +6,7 @@ declare function $$(selector: string|Object, options?: { ignoreHierarchy: boolea
 declare type PageObject = {
     init(driver, options: { timeout: number }): void;
     register(pageObject: Object): void;
-    getElement(path: string): Element | ElementArray
+    getElement(path: string, options?: {immediate: boolean}): Element | ElementArray
 }
 declare let po: PageObject;
 declare class Component {

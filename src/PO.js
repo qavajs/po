@@ -20,36 +20,50 @@ class PO {
     /**
      * Get element from page object
      * @public
-     * @param {string} path
+     * @param {string} path - element query
+     * @param {{immediate: boolean}} options - options
      * @returns { import('webdriverio').ElementCommandsType|import('webdriverio').ElementArray }
      */
-    async getElement(path) {
+    async getElement(path, options = {immediate: false}) {
         if (!this.driver) throw new Error('Driver is not attached. Call po.init(driver)');
         const timeoutMsg = `Element '${path}' is not found`;
         this.checkPO(path);
         try {
-            const el = await this.driver.waitUntil(async () => {
-                const tokens = parseTokens(path);
-                let element = this.driver;
-                let po = this;
-                while (tokens.length > 0) {
-                    const token = tokens.shift();
-                    [element, po] = await this.getEl(element, po, token);
-                }
-                if (element) return element;
-            }, {
-                timeout: this.config.timeout,
-                interval: TICK_INTERVAL,
-                timeoutMsg
-            });
-            el.alias = path;
-            return el;
+            let element;
+            if (options.immediate) {
+                element = await this.findElement(path);
+                if (!element) return this.getChildNotFound(this.driver, path);
+            } else {
+                element = await this.driver.waitUntil(() => this.findElement(path), {
+                    timeout: this.config.timeout,
+                    interval: TICK_INTERVAL,
+                    timeoutMsg
+                });
+            }
+            element.alias = path;
+            return element;
         } catch (err) {
             if (err.message.includes(timeoutMsg)) {
                 return this.getChildNotFound(this.driver, path);
             }
             throw err;
         }
+    }
+
+    /**
+     * Resolve element by path
+     * @param {string} path - element query
+     * @return {Promise<Browser | Element>}
+     */
+    async findElement(path) {
+        const tokens = parseTokens(path);
+        let element = this.driver;
+        let po = this;
+        while (tokens.length > 0) {
+            const token = tokens.shift();
+            [element, po] = await this.getEl(element, po, token);
+        }
+        if (element) return element;
     }
 
     register(obj) {
