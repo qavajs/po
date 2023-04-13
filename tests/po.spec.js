@@ -91,13 +91,13 @@ describe('po', () => {
     });
 
     it('get element that not exist in collection by text', async () => {
-        const element = await po.getElement('#notexist in List');
+        const element = await po.getElement('#notexist in List', { immediate: true });
         expect(await element.isExisting()).to.equal(false);
         expect(await element.isDisplayed()).to.equal(false);
     });
 
     it('get element that not exist in collection by index', async () => {
-        const element = await po.getElement('#42 of List');
+        const element = await po.getElement('#42 of List', { immediate: true });
         expect(await element.isExisting()).to.equal(false);
         expect(await element.isDisplayed()).to.equal(false);
     });
@@ -127,7 +127,7 @@ describe('po', () => {
 
     it('get element not existing in po', async () => {
         const shouldThrow = async () => await po.getElement('There Is No Element');
-        await expect(shouldThrow()).to.eventually.be.rejectedWith('There Is No Element is not found');
+        await expect(shouldThrow()).to.eventually.be.rejectedWith(`Element 'There Is No Element' is not found in page object`);
     });
 
 
@@ -179,7 +179,7 @@ describe('po', () => {
 
     it('throw an error if component without selector registered as collection', async () => {
         const shouldThrow = async () => await po.getElement('#1 of Components Without Selector > #2 of List');
-        await expect(shouldThrow()).to.eventually.be.rejectedWith('Unsupported operation. Components Without Selector selector property is required as it is collection');
+        await expect(shouldThrow()).to.eventually.be.rejectedWith(`Element 'Components Without Selector' selector property is required as it is collection`);
     });
 
     after(async () => {

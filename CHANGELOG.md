@@ -1,11 +1,13 @@
 # Change Log
 
-All notable changes to the "@qavajs/steps-accessibility" will be documented in this file.
+All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [1.4.0]
 - :rocket: added element query validation
+- :rocket: added auto-retry for element
+- :rocket: added immediate flag to skip auto-retry
 
 ## [1.3.0]
 - :rocket: added text selector by regexp
