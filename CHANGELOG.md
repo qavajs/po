@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.4.1]
+- :beetle: removed getting text from text content
+
 ## [1.4.0]
 - :rocket: added element query validation
 - :rocket: added auto-retry for element

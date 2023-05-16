@@ -145,9 +145,7 @@ class PO {
         const condition = textConditions[token.prefix](token);
         const collection = await this.getCollection(element, po.selector);
         for (const el of collection) {
-            let text = await el.getText();
-            if (text === undefined) text = await this.driver.execute(e => e.textContent, el);
-            if (condition(text)) {
+            if (condition(await el.getText())) {
                 return el;
             }
         }
