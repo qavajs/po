@@ -1,20 +1,18 @@
-const { expect } = require('chai');
-const { po, $, $$, Component } = require('../index');
-describe('Component', () => {
-    it('po', () => {
-        expect(po.init).to.be.a('function');
-        expect(po.getElement).to.be.a('function');
-    });
+import {test, beforeAll, afterAll, expect} from 'vitest';
+const {po, $, $$, Component} = require('../index');
+test('po', () => {
+    expect(po.init).to.be.a('function');
+    expect(po.getElement).to.be.a('function');
+});
 
-    it('$', () => {
-        expect($).to.be.a('function');
-    });
+test('$', () => {
+    expect($).to.be.a('function');
+});
 
-    it('$$', () => {
-        expect($$).to.be.a('function');
-    });
+test('$$', () => {
+    expect($$).to.be.a('function');
+});
 
-    it('Component', () => {
-        expect(Component).to.be.a('function');
-    });
+test('Component', () => {
+    expect(Component).to.be.a('function');
 });
