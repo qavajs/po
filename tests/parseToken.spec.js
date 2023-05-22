@@ -1,6 +1,5 @@
-const {expect} = require('chai');
+import {test, beforeAll, afterAll, expect} from 'vitest';
 const parseToken = require('../src/parseTokens');
-describe('parseToken', () => {
     [
         {
             query: 'Element',
@@ -71,7 +70,7 @@ describe('parseToken', () => {
             }]
         },
     ].forEach(data => {
-        it(data.query, () => {
+        test(data.query, () => {
             expect(parseToken(data.query)).to.eql(data.tokens)
         });
     });
@@ -98,10 +97,8 @@ describe('parseToken', () => {
             error: `Query '/1 of Element' is not well formed!\n'/' is not allowed with 'of'`
         }
     ].forEach(data => {
-        it(`error ${data.query}`, () => {
+        test(`error ${data.query}`, () => {
             const handler = () => parseToken(data.query);
             expect(handler).to.throw(data.error)
         });
     });
-
-});
