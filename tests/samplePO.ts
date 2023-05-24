@@ -1,4 +1,4 @@
-const { $, $$ } = require('../src/register');
+import { $, $$ } from '../src/register';
 
 class MultipleComponent {
     selector = '.list-components li';
@@ -55,4 +55,4 @@ class App {
     ComponentsWithoutSelector = $$(new ComponentWithoutSelector());
 }
 
-module.exports = new App();
+export default new App();

@@ -1,8 +1,9 @@
 import {test, beforeAll, afterAll, expect} from 'vitest';
-const {po, $, $$, Component} = require('../index');
+import {po, $, $$, Component} from '../index';
 test('po', () => {
     expect(po.init).to.be.a('function');
     expect(po.getElement).to.be.a('function');
+    expect(po.register).to.be.a('function');
 });
 
 test('$', () => {

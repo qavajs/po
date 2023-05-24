@@ -1,6 +1,6 @@
-const po = require('./src/PO');
-const { $, $$ } = require('./src/register');
-const Component = require('./src/Component');
+const po = require('./lib/PageObject').default;
+const { $, $$ } = require('./lib/register');
+const Component = require('./lib/Component').default;
 
 module.exports = {
     po,

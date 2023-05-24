@@ -68,8 +68,17 @@ The best place to do it is cucumber-js Before hook
 ```javascript
 const { po } = require('@qavajs/po');
 const pos = require('./app.js');
+
+class WDIOStrategy {
+    constructor(browser) {
+        this.browser = browser
+    }
+    getElement(query) {
+        // get element implementation
+    }
+}
 Before(async function() {
-    po.init(browser, { timeout: 10000 });  // browser is webdriverIO browser object
+    po.init(new WDIOStrategy(browser), { timeout: 10000 });  // browser is webdriverIO browser object
     po.register(pos); // pos is page object hierarchy
 });
 ```
@@ -102,7 +111,7 @@ class ChildComponent {
 ```
 
 ## Immediate option
-In order you don't need to retry query for elements exists you can pass { immediate: true } option
+In order, you don't need to retry query for elements exists you can pass { immediate: true } option
 ```javascript
 When('I wait {string} not to be present', async function (alias) {
     const element = await po.getElement(alias, { immediate: true }); // in case if element not found dummy not existing element be returned

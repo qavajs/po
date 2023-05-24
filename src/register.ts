@@ -5,7 +5,7 @@
  * @param {{ ignoreHierarchy }} options - page object definition options
  * @returns {{ definition, isCollection, ignoreHierarchy }}
  */
-function register(definition, isCollection, options = { ignoreHierarchy: false }) {
+export function register(definition: any, isCollection: boolean, options = { ignoreHierarchy: false }) {
     if (!definition) throw new Error('Selector or component should be passed!');
     if (typeof definition === 'object') {
         return {
@@ -21,16 +21,10 @@ function register(definition, isCollection, options = { ignoreHierarchy: false }
     }
 }
 
-function $(definition, options) {
+export function $(definition: any, options?: { ignoreHierarchy: boolean }) {
     return register(definition, false, options)
 }
 
-function $$(definition, options) {
+export function $$(definition: any, options?: { ignoreHierarchy: boolean }) {
     return register(definition, true, options)
 }
-
-module.exports = {
-    $,
-    $$,
-    register
-};

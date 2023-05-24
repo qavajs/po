@@ -1,5 +1,5 @@
 import {test, beforeAll, afterAll, expect} from 'vitest';
-const parseToken = require('../src/parseTokens');
+import parseToken from '../src/parseTokens';
     [
         {
             query: 'Element',

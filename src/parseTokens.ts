@@ -1,13 +1,23 @@
 const SPLIT_TOKENS_REGEXP = /\s*>\s*/;
 const PARSE_TOKEN_REGEXP = /^(?<prefix>[#@/])(?<value>.+)\s(?<suffix>of|in)\s(?<elementName>.+)$/
 
+type TokenParams = {
+    elementName: string,
+    prefix?: string,
+    value?: string,
+    suffix?: string
+}
 class Token {
-    constructor({ elementName, prefix, value, suffix }) {
+    elementName: string;
+    prefix?: string;
+    value?: string;
+    suffix?: string;
+    constructor({ elementName, prefix, value, suffix }: TokenParams) {
         this.elementName = elementName;
         this.prefix = prefix;
         this.value = value;
         this.suffix = suffix;
-        if (prefix === '/' && value[value.length - 1] === '/') {
+        if (value && prefix === '/' && value[value.length - 1] === '/') {
             this.value = value.slice(0, value.length - 1);
         }
     }
@@ -19,7 +29,7 @@ class Token {
  * @param {string} query - query to access element
  * @return {Array<Token>}
  */
-function parseTokens(query) {
+export default function parseTokens(query: string) {
     const tokens = query.split(SPLIT_TOKENS_REGEXP);
     return tokens.map(token)
 }
@@ -29,18 +39,18 @@ function parseTokens(query) {
  * @param {Token} props - token props
  * @param {string} query - original query
  */
-function checkQuery(props, query) {
+function checkQuery(props: TokenParams, query: string) {
     const header = `Query '${query}' is not well formed!\n`
     if (props.suffix === 'of' && props.prefix !== '#') {
         throw new Error(header + `'${props.prefix}' is not allowed with 'of'`);
     }
-    if (props.prefix === '#' && props.suffix === 'of' && Number.isNaN(parseInt(props.value))) {
+    if (props.prefix === '#' && props.suffix === 'of' && props.value && Number.isNaN(parseInt(props.value))) {
         throw new Error(header + `provided value '${props.value}' is not a number`);
     }
     if (props.prefix === '#' && props.suffix === 'of' && props.value === '0') {
         throw new Error(header + `zero index is not allowed`);
     }
-    if (props.prefix === '/' && !props.value.endsWith('/')) {
+    if (props.prefix === '/' && props.value && !props.value.endsWith('/')) {
         throw new Error(header + `regexp does not have closing tag /`);
     }
 }
@@ -50,9 +60,9 @@ function checkQuery(props, query) {
  * @param {string} query
  * @return {Token}
  */
-function token(query) {
+function token(query: string) {
     if (PARSE_TOKEN_REGEXP.test(query)) {
-        const props = {...PARSE_TOKEN_REGEXP.exec(query).groups};
+        const props = {...(PARSE_TOKEN_REGEXP.exec(query) as any).groups};
         checkQuery(props, query);
         return new Token(props)
     }
@@ -60,5 +70,3 @@ function token(query) {
         elementName: query
     })
 }
-
-module.exports = parseTokens;

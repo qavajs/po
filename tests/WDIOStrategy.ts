@@ -1,4 +1,7 @@
-const parseTokens = require('./parseTokens');
+import {Browser, Element} from 'webdriverio';
+import {IPageObjectStrategy} from '../src/IPageObjectStrategy';
+
+import parseTokens from '../src/parseTokens';
 const TICK_INTERVAL = 500;
 const textConditions = {
     '#': token => text => text.includes(token.value),
@@ -6,15 +9,22 @@ const textConditions = {
     '/': token => text => new RegExp(token.value, 'gmi').test(text)
 };
 
-class PO {
+export default class WDIOStrategy implements IPageObjectStrategy {
 
-    init(driver, options = {timeout: 2000}) {
+    driver?: Browser;
+    config: any;
+    pos: any;
+    constructor(driver, options = {timeout: 2000}) {
         /**
          * @type { import('webdriverio').Browser }
          */
         this.driver = driver;
         this.config = {};
         this.config.timeout = options.timeout;
+    }
+
+    setPageObject(pos: Object) {
+        this.pos = pos;
     }
 
     /**
@@ -58,18 +68,12 @@ class PO {
     async findElement(path) {
         const tokens = parseTokens(path);
         let element = this.driver;
-        let po = this;
+        let po = this.pos;
         while (tokens.length > 0) {
             const token = tokens.shift();
             [element, po] = await this.getEl(element, po, token);
         }
         if (element) return element;
-    }
-
-    register(obj) {
-        for (const prop in obj) {
-            this[prop] = obj[prop]
-        }
     }
 
     /**
@@ -78,7 +82,7 @@ class PO {
      */
     checkPO(path) {
         const poTokens = parseTokens(path);
-        let po = this;
+        let po = this.pos;
         for (const token of poTokens) {
             po = po[token.elementName.replace(/\s/g, '')];
             if (!po) throw new Error(`Element '${token.elementName}' is not found in page object`);
@@ -209,5 +213,3 @@ class PO {
     }
 
 }
-
-module.exports = new PO();

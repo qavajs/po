@@ -1,9 +1,10 @@
 {
   "name": "@qavajs/po",
-  "version": "1.4.1",
+  "version": "next",
   "description": "library for plain-english access to page object",
   "main": "index.js",
-  "scripts": {
+  "scripts":{
+    "build": "tsc",
     "test": "vitest --coverage run"
   },
   "authors": [
@@ -13,7 +14,8 @@
   "license": "MIT",
   "devDependencies": {
     "@vitest/coverage-c8": "^0.31.1",
+    "typescript": "^5.0.4",
     "vitest": "^0.31.1",
-    "webdriverio": "^8.10.4"
+    "webdriverio": "^8.10.5"
   }
 }

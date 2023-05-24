@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [2.0.0]
+- :rocket: moving all po resolve logic to corresponding step libraries
+
 ## [1.4.1]
 - :beetle: removed getting text from text content
 
