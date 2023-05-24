@@ -7,7 +7,7 @@ type TokenParams = {
     value?: string,
     suffix?: string
 }
-class Token {
+export class Token {
     elementName: string;
     prefix?: string;
     value?: string;

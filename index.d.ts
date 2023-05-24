@@ -1,17 +1,16 @@
-import * as WebdriverIO from 'webdriverio';
-export declare type Element = WebdriverIO.Element;
-export declare type ElementArray = WebdriverIO.ElementArray;
+import { Token } from './src/parseTokens';
 declare function $(selector: any, options?: { ignoreHierarchy: boolean }): Object;
 declare function $$(selector: any, options?: { ignoreHierarchy: boolean }): Object;
+declare function parseTokens(query: string): Token[]
 declare type PageObject = {
     init(driver, options: { timeout: number }): void;
     register(pageObject: Object): void;
-    getElement(path: string, options?: {immediate: boolean}): Element | ElementArray
+    getElement<T>(path: string, options?: {immediate: boolean}): T
 }
 declare let po: PageObject;
 declare class Component {
     constructor(selector: string)
 }
 declare module '@qavajs/po' {
-    export { $, $$, po, Component }
+    export { $, $$, po, Component, parseTokens }
 }
