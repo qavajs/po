@@ -17,7 +17,7 @@ class Token {
         this.prefix = prefix;
         this.value = value;
         this.suffix = suffix;
-        if (value && prefix === '/' && value[value.length - 1] === '/') {
+        if (value && prefix === '/' && value.endsWith('/')) {
             this.value = value.slice(0, value.length - 1);
         }
     }
