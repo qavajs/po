@@ -10,6 +10,11 @@ class Token {
         if (prefix === '/' && value[value.length - 1] === '/') {
             this.value = value.slice(0, value.length - 1);
         }
+        if (elementName.includes('(')) {
+            const [name, param] = elementName.replace(')', '').split(/\s+\(/);
+            this.elementName = name;
+            this.param = param.replace(/([()]|^\s)/g, '').split(/\s*,\s*/);
+        }
     }
 
 }
