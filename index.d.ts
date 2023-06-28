@@ -14,5 +14,5 @@ declare class Component {
 }
 declare function Selector(selectorFunction: Function): any
 declare module '@qavajs/po' {
-    export { $, $$, po, Component }
+    export { $, $$, po, Component, Selector }
 }
