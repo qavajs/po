@@ -126,10 +126,10 @@ class PO {
                 newPo
             ];
             if (newPo.isCollection && !token.suffix) return [
-                await this.getCollection(currentElement, newPo.selector),
+                await this.getCollection(currentElement, newPo.selector, token.param),
                 newPo
             ];
-            return [await this.getSingleElement(currentElement, newPo.selector), newPo]
+            return [await this.getSingleElement(currentElement, newPo.selector, token.param), newPo]
         }
     }
 
@@ -143,7 +143,7 @@ class PO {
      */
     async getElementByText(element, po, token) {
         const condition = textConditions[token.prefix](token);
-        const collection = await this.getCollection(element, po.selector);
+        const collection = await this.getCollection(element, po.selector, token.param);
         for (const el of collection) {
             if (condition(await el.getText())) {
                 return el;
@@ -175,18 +175,18 @@ class PO {
      */
     async getElementByIndex(element, po, token) {
         const index = parseInt(token.value) - 1;
-        const collection = await this.getCollection(element, po.selector);
+        const collection = await this.getCollection(element, po.selector, token.param);
         if (collection.length > index) {
             return collection[index]
         }
     }
 
-    async getCollection(element, selector) {
-        return element.$$(selector);
+    async getCollection(element, selector, param) {
+        return element.$$(this.resolveSelector(selector, param));
     }
 
-    async getSingleElement(element, selector) {
-        return element.$(selector);
+    async getSingleElement(element, selector, param) {
+        return element.$(this.resolveSelector(selector, param));
     }
 
     /**
@@ -206,6 +206,10 @@ class PO {
 
     async getChildNotFound(parentElement, path) {
         return parentElement.$(`ElementNotExist-${path}`.replace('>', '-').replace(/\W/g, ''))
+    }
+
+    resolveSelector(selector, param) {
+        return selector.isSelectorFunction ? selector.selectorFunction(...param) : selector
     }
 
 }

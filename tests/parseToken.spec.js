@@ -69,6 +69,26 @@ const parseToken = require('../src/parseTokens');
                 value: '^text$'
             }]
         },
+        {
+            query: 'Parameter (22)',
+            tokens: [{
+                elementName: 'Parameter',
+                prefix: undefined,
+                suffix: undefined,
+                value: undefined,
+                param: ['22']
+            }]
+        },
+        {
+            query: '#1 of Parameter Collection (22)',
+            tokens: [{
+                elementName: 'Parameter Collection',
+                prefix: '#',
+                suffix: 'of',
+                value: '1',
+                param: ['22']
+            }]
+        },
     ].forEach(data => {
         test(data.query, () => {
             expect(parseToken(data.query)).to.eql(data.tokens)

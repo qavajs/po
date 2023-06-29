@@ -4,7 +4,7 @@
 class Component {
 
     /**
-     * @param {string} [selector] - component selector
+     * @param {any} [selector] - component selector
      */
     constructor(selector) {
         this.selector = selector;

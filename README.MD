@@ -22,7 +22,6 @@ When I click '#1 of Multiple Component > Child Item'
 When I click '#some text in Multiple Component > Child Item'
 When I click '@some exact text in Multiple Component > Child Item'
 When I click '/regexp/ in Multiple Component > Child Item'
-
 ```
 
 Lib provides capability to get single element from collection by index (#index of Collection) or inner text (#text in Collection).
@@ -102,10 +101,29 @@ class ChildComponent {
 ```
 
 ## Immediate option
-In order you don't need to retry query for elements exists you can pass { immediate: true } option
+In order, you don't need to retry query for elements exists you can pass { immediate: true } option
 ```javascript
 When('I wait {string} not to be present', async function (alias) {
     const element = await po.getElement(alias, { immediate: true }); // in case if element not found dummy not existing element be returned
     await element.waitForExist({ reverse: true });
 });
+```
+
+## Dynamic selectors
+In case you need to generate selector based on some data you can use dynamic selectors
+
+e.g
+```javascript
+const { Selector } = require('@qavajs/po');
+
+class Component {
+    selector = '.container';
+    Element = $(Selector((index => `div:nth-child(${index})`))); // function should return valid selector 
+}
+```
+
+Then you can pass parameter to this function from Gherkin file
+
+```gherkin
+When I click 'Component > Element (2)'
 ```

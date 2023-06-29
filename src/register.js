@@ -7,7 +7,7 @@
  */
 function register(definition, isCollection, options = { ignoreHierarchy: false }) {
     if (!definition) throw new Error('Selector or component should be passed!');
-    if (typeof definition === 'object') {
+    if (typeof definition === 'object' && !definition.isSelectorFunction) {
         return {
             ...definition,
             isCollection,
