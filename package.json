@@ -4,7 +4,7 @@
   "description": "library for plain-english access to page object",
   "main": "index.js",
   "scripts": {
-    "test": "vitest --coverage --run"
+    "test": "vitest --run"
   },
   "authors": [
     "Alexander Galichenko",
