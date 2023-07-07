@@ -62,13 +62,13 @@ module.exports = new App();
 ```
 ## Register PO
 Before using po object need to be initiated and hierarchy of elements needs to be registered
-The best place to do it is cucumber-js Before hook
+The best place to do it is CucumberJS Before hook
 
 ```javascript
 const { po } = require('@qavajs/po');
 const pos = require('./app.js');
 Before(async function() {
-    po.init(browser, { timeout: 10000 });  // browser is webdriverIO browser object
+    po.init(browser, { timeout: 10000, logger: this });  // browser is webdriverIO browser object
     po.register(pos); // pos is page object hierarchy
 });
 ```
