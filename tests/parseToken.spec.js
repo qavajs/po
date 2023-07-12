@@ -1,5 +1,7 @@
-import {test, beforeAll, afterAll, expect} from 'vitest';
+import {test, describe, expect} from 'vitest';
 const parseToken = require('../src/parseTokens');
+
+describe('parseToken', () => {
     [
         {
             query: 'Element',
@@ -122,3 +124,5 @@ const parseToken = require('../src/parseTokens');
             expect(handler).to.throw(data.error)
         });
     });
+
+});

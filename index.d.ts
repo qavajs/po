@@ -3,8 +3,11 @@ export declare type Element = WebdriverIO.Element;
 export declare type ElementArray = WebdriverIO.ElementArray;
 declare function $(selector: string|Object, options?: { ignoreHierarchy: boolean }): Object;
 declare function $$(selector: string|Object, options?: { ignoreHierarchy: boolean }): Object;
+declare interface Logger {
+    log(value: any): void;
+}
 declare type PageObject = {
-    init(driver, options: { timeout: number }): void;
+    init(driver, options?: { timeout?: number, logger?: Logger }): void;
     register(pageObject: Object): void;
     getElement(path: string, options?: {immediate: boolean}): Element | ElementArray
 }

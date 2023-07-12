@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.6.0]
+- :rocket: added capability to provide logger
+
 ## [1.5.0]
 - :rocket: added capability to dynamically generate selectors
 

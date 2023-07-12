@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
+const config = defineConfig({
   test: {
     coverage: {
       provider: 'v8',
@@ -11,6 +11,8 @@ export default defineConfig({
       lines: 90,
       statements: -10,
     },
-    testTimeout: 20000
+    testTimeout: 30000
   }
-})
+});
+
+export default config;

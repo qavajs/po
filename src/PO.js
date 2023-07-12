@@ -6,6 +6,10 @@ const textConditions = {
     '/': token => text => new RegExp(token.value, 'gmi').test(text)
 };
 
+const defaultLogger = {
+    log() {}
+};
+
 class PO {
 
     init(driver, options = {timeout: 2000}) {
@@ -15,6 +19,7 @@ class PO {
         this.driver = driver;
         this.config = {};
         this.config.timeout = options.timeout;
+        this.logger = options.logger ?? defaultLogger;
     }
 
     /**
@@ -95,10 +100,11 @@ class PO {
      * @returns
      */
     async getEl(element, po, token) {
-        const newPo = po[token.elementName.replace(/\s/g, '')];
+        const poAlias = token.elementName.replace(/\s/g, '');
+        const newPo = po[poAlias];
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo.selector) return [currentElement, newPo];
-
+        this.logger.log(`${poAlias} -> ${newPo.selector}`);
         if (Array.isArray(currentElement)) {
             if (!newPo.isCollection) return [
                 await this.getChildrenOfCollectionElements(currentElement, newPo),
