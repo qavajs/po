@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/po",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "library for plain-english access to page object",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@vitest/coverage-v8": "^0.33.0",
-    "vitest": "^0.33.0",
-    "webdriverio": "^8.11.2"
+    "@vitest/coverage-v8": "^0.34.6",
+    "devtools": "^8.23.0",
+    "vitest": "^0.34.6",
+    "webdriverio": "^8.23.0"
   }
 }

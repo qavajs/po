@@ -18,6 +18,7 @@ describe('logger', () => {
 	beforeAll(async () => {
 		const driver = await remote({
 			logLevel: 'warn',
+			automationProtocol: 'devtools',
 			capabilities: {
 				browserName: 'chrome',
 				'goog:chromeOptions': {
