@@ -1,5 +1,5 @@
-import {afterAll, beforeAll, describe, expect, test} from 'vitest';
-import {remote} from 'webdriverio';
+import {afterAll, beforeAll, describe, expect, test, beforeEach} from 'vitest';
+import {remote, $} from 'webdriverio';
 import poLogger from '../src/PO';
 import samplePO from './samplePO';
 import path from 'path';
@@ -33,14 +33,23 @@ describe('logger', () => {
 		await driver.url('file://' + fileName);
 	});
 
+	beforeEach(() => {
+		logger.clean();
+	});
+
 	test('get single element', async () => {
 		const element = await poLogger.getElement('Single Element');
-		expect(logger.logs.pop()).toEqual('SingleElement -> .single-element');
+		expect(logger.logs).toEqual(['SingleElement -> .single-element']);
 	});
 
 	test('get child element', async () => {
 		const element = await poLogger.getElement('Single Component > Child Item');
 		expect(logger.logs).toEqual(['SingleComponent -> .container', 'ChildItem -> .child-item']);
+	});
+
+	test('get Selector element', async () => {
+		const element = await poLogger.getElement('Async Component By Selector (#async-list-components)');
+		expect(logger.logs).toEqual(['AsyncComponentBySelector -> #async-list-components']);
 	});
 
 	afterAll(async () => {

@@ -6,6 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.7.0]
 - :rocket: updated d.ts
+- :beetle: fixed logger for Selector function
 
 ## [1.6.0]
 - :rocket: added capability to provide logger
