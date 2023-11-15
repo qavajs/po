@@ -104,7 +104,8 @@ class PO {
         const newPo = po[poAlias];
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
         if (!newPo.selector) return [currentElement, newPo];
-        this.logger.log(`${poAlias} -> ${newPo.selector}`);
+        newPo.resolvedSelector = this.resolveSelector(newPo.selector, token.param);
+        this.logger.log(`${poAlias} -> ${newPo.resolvedSelector}`);
         if (Array.isArray(currentElement)) {
             if (!newPo.isCollection) return [
                 await this.getChildrenOfCollectionElements(currentElement, newPo),
@@ -132,10 +133,10 @@ class PO {
                 newPo
             ];
             if (newPo.isCollection && !token.suffix) return [
-                await this.getCollection(currentElement, newPo.selector, token.param),
+                await this.getCollection(currentElement, newPo.resolvedSelector, token.param),
                 newPo
             ];
-            return [await this.getSingleElement(currentElement, newPo.selector, token.param), newPo]
+            return [await this.getSingleElement(currentElement, newPo.resolvedSelector, token.param), newPo]
         }
     }
 
@@ -149,7 +150,7 @@ class PO {
      */
     async getElementByText(element, po, token) {
         const condition = textConditions[token.prefix](token);
-        const collection = await this.getCollection(element, po.selector, token.param);
+        const collection = await this.getCollection(element, po.resolvedSelector);
         for (const el of collection) {
             if (condition(await el.getText())) {
                 return el;
@@ -181,18 +182,18 @@ class PO {
      */
     async getElementByIndex(element, po, token) {
         const index = parseInt(token.value) - 1;
-        const collection = await this.getCollection(element, po.selector, token.param);
+        const collection = await this.getCollection(element, po.resolvedSelector);
         if (collection.length > index) {
             return collection[index]
         }
     }
 
-    async getCollection(element, selector, param) {
-        return element.$$(this.resolveSelector(selector, param));
+    async getCollection(element, selector) {
+        return element.$$(selector);
     }
 
-    async getSingleElement(element, selector, param) {
-        return element.$(this.resolveSelector(selector, param));
+    async getSingleElement(element, selector) {
+        return element.$(selector);
     }
 
     /**
@@ -202,11 +203,11 @@ class PO {
      * @returns
      */
     async getChildrenOfCollectionElements(collection, po) {
-        return Promise.all(collection.map(async element => element.$(po.selector)))
+        return Promise.all(collection.map(async element => element.$(po.resolvedSelector)))
     }
 
     async getCollectionOfCollection(collection, po) {
-        const subCollection = await Promise.all(collection.map(async element => element.$$(po.selector)));
+        const subCollection = await Promise.all(collection.map(async element => element.$$(po.resolvedSelector)));
         return await Promise.all(subCollection.reduce((flat, elements) => [...flat, ...elements], []));
     }
 
