@@ -4,6 +4,16 @@ All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.8.0]
+- :rocket: added capability to use driver-built selector
+```javascript
+const { NativeSelector } = require('@qavajs/po');
+
+class App {
+    Element = $(NativeSelector(browser => browser.$('.single-element')));
+}
+```
+
 ## [1.7.0]
 - :rocket: updated d.ts
 - :beetle: fixed logger for Selector function

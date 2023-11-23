@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/po",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "library for plain-english access to page object",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
   },
   "authors": [
     "Alexander Galichenko",
-    "Alexandr Legchilov"
+    "Alexandr Legchilov",
+    "Kiryl Bahdanets"
   ],
   "license": "MIT",
   "devDependencies": {

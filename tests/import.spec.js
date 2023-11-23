@@ -1,5 +1,5 @@
-import {test, describe, expect} from 'vitest';
-const {po, $, $$, Component} = require('../index');
+import { test, describe, expect } from 'vitest';
+const { po, $, $$, Component, Selector, NativeSelector } = require('../index');
 
 describe('import', () => {
     test('po', () => {
@@ -19,4 +19,11 @@ describe('import', () => {
         expect(Component).to.be.a('function');
     });
 
+    test('Selector', () => {
+        expect(Selector).toBeInstanceOf(Function);
+    });
+
+    test('NativeSelector', () => {
+        expect(NativeSelector).toBeInstanceOf(Function);
+    });
 });

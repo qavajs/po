@@ -88,7 +88,7 @@ class PO {
             po = po[token.elementName.replace(/\s/g, '')];
             if (!po) throw new Error(`Element '${token.elementName}' is not found in page object`);
             if (!po.isCollection && token.suffix) throw new Error(`Element '${token.elementName}' is not collection`);
-            if (po.isCollection && !po.selector) throw new Error(`Element '${token.elementName}' selector property is required as it is collection`);
+            if (po.isCollection && !po.selector && !po.isNativeSelector) throw new Error(`Element '${token.elementName}' selector property is required as it is collection`);
         }
     }
 
@@ -103,6 +103,7 @@ class PO {
         const poAlias = token.elementName.replace(/\s/g, '');
         const newPo = po[poAlias];
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
+        if (newPo.isNativeSelector) return [await newPo.selectorFunction(this.driver), newPo];
         if (!newPo.selector) return [currentElement, newPo];
         newPo.resolvedSelector = this.resolveSelector(newPo.selector, token.param);
         this.logger.log(`${poAlias} -> ${newPo.resolvedSelector}`);
