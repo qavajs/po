@@ -11,8 +11,15 @@ declare module '@qavajs/po' {
     class Component {
         constructor(selector: any)
     }
-    function Selector(selectorFunction: Function): any
-    function $(selector: string|Object, options?: { ignoreHierarchy: boolean }): Object;
-    function $$(selector: string|Object, options?: { ignoreHierarchy: boolean }): Object;
-    export { $, $$, po, Component, Selector }
+    function Selector(selectorFunction: Function): any;
+    function NativeSelector(selectorFunction: Function): any;
+    function $(
+      selector: string | Object,
+      options?: { ignoreHierarchy: boolean }
+    ): Object;
+    function $$(
+      selector: string | Object,
+      options?: { ignoreHierarchy: boolean }
+    ): Object;
+    export { $, $$, po, Component, Selector, NativeSelector }
 }

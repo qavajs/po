@@ -127,3 +127,12 @@ Then you can pass parameter to this function from Gherkin file
 ```gherkin
 When I click 'Component > Element (2)'
 ```
+
+```javascript
+const { NativeSelector } = require('@qavajs/po');
+
+class Component {
+    selector = '.container';
+    Element = $(NativeSelector(browser => browser.$('.single-element'))); 
+}
+```

@@ -1,3 +1,11 @@
+function NativeSelector(selectorFunction) {
+
+    return {
+        isNativeSelector: true,
+        selectorFunction
+    }
+}
+
 function Selector(selectorFunction) {
 
     return {
@@ -7,4 +15,7 @@ function Selector(selectorFunction) {
 
 }
 
-module.exports = Selector
+module.exports = {
+    NativeSelector,
+    Selector
+}

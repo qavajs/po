@@ -192,6 +192,16 @@ describe('page object', () => {
         expect(element.length).toEqual(3);
     });
 
+    test('get native single element', async () => {
+        const element = await po.getElement('Native Selector Single Element');
+        expect(await element.getText()).toBe('text of single element');
+    });
+    
+    test('get native collection', async () => {
+        const collection = await po.getElement('Native Selector List');
+        expect(await collection.length).toBe(6);
+    });
+
     afterAll(async () => {
         await po.driver.deleteSession();
     });

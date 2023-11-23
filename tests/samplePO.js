@@ -1,6 +1,6 @@
 const { $, $$ } = require('../src/register');
 const Component = require('../src/Component');
-const Selector = require('../src/Selector');
+const { Selector, NativeSelector } = require('../src/Selector');
 
 class MultipleComponent {
     selector = '.list-components li';
@@ -56,6 +56,8 @@ class App {
     NotExistingComponent = $(new NotExistingComponent());
     ComponentWithoutSelector = $(new ComponentWithoutSelector());
     ComponentsWithoutSelector = $$(new ComponentWithoutSelector());
+    NativeSelectorSingleElement = $(NativeSelector(browser => browser.$('.single-element')));
+    NativeSelectorList = $$(NativeSelector(browser => browser.$$('.list li')));
 }
 
 module.exports = new App();
