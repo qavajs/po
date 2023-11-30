@@ -128,6 +128,9 @@ Then you can pass parameter to this function from Gherkin file
 When I click 'Component > Element (2)'
 ```
 
+## Native framework selectors
+It is also possible to use driver-built capabilities to return element. You can pass handler that has access to
+current `browser` object.
 ```javascript
 const { NativeSelector } = require('@qavajs/po');
 
