@@ -167,11 +167,11 @@ class PO {
      * @returns {Promise<Awaited<unknown>[]>}
      */
     getElementByTextFromCollection(collection, po, token) {
-        return Promise.all(collection.map(element => this.getElementByText(element, po, token)))
+        return collection.map(element => this.getElementByText(element, po, token))
     }
 
     getElementByIndexFromCollection(collection, po, token) {
-        return Promise.all(collection.map(element => this.getElementByIndex(element, po, token)))
+        return collection.map(element => this.getElementByIndex(element, po, token))
     }
 
     /**
@@ -204,12 +204,12 @@ class PO {
      * @returns
      */
     async getChildrenOfCollectionElements(collection, po) {
-        return Promise.all(collection.map(async element => element.$(po.resolvedSelector)))
+        return collection.map(async element => element.$(po.resolvedSelector))
     }
 
     async getCollectionOfCollection(collection, po) {
-        const subCollection = await Promise.all(collection.map(async element => element.$$(po.resolvedSelector)));
-        return await Promise.all(subCollection.reduce((flat, elements) => [...flat, ...elements], []));
+        const subCollection = await collection.map(async element => element.$$(po.resolvedSelector));
+        return subCollection.reduce((flat, elements) => [...flat, ...elements], []);
     }
 
     async getChildNotFound(parentElement, path) {

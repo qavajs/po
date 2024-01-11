@@ -3,6 +3,9 @@
 All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+ 
+## [1.9.0]
+- :x: disabled auto-split arguments in selector function
 
 ## [1.8.0]
 - :rocket: added capability to use driver-built selector

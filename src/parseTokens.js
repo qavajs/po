@@ -13,7 +13,7 @@ class Token {
         if (elementName.includes('(')) {
             const [name, param] = elementName.replace(')', '').split(/\s+\(/);
             this.elementName = name;
-            this.param = param.replace(/([()]|^\s)/g, '').split(/\s*,\s*/);
+            this.param = [param.replace(/([()]|^\s)/g, '')];
         }
     }
 
