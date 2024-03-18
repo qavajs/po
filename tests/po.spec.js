@@ -9,7 +9,6 @@ describe('page object', () => {
     beforeAll(async () => {
         const driver = await remote({
             logLevel: 'warn',
-            automationProtocol: 'devtools',
             capabilities: {
                 browserName: 'chrome',
                 'goog:chromeOptions': {
@@ -196,10 +195,15 @@ describe('page object', () => {
         const element = await po.getElement('Native Selector Single Element');
         expect(await element.getText()).toBe('text of single element');
     });
-    
+
+    test('get native single element from parent', async () => {
+        const element = await po.getElement('Native Selector Single Element From Parent');
+        expect(await element.getText()).toBe('text of single element');
+    });
+
     test('get native collection', async () => {
         const collection = await po.getElement('Native Selector List');
-        expect(await collection.length).toBe(6);
+        expect(collection.length).toBe(6);
     });
 
     afterAll(async () => {

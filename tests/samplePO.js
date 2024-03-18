@@ -57,6 +57,7 @@ class App {
     ComponentWithoutSelector = $(new ComponentWithoutSelector());
     ComponentsWithoutSelector = $$(new ComponentWithoutSelector());
     NativeSelectorSingleElement = $(NativeSelector(browser => browser.$('.single-element')));
+    NativeSelectorSingleElementFromParent = $(NativeSelector((_, parent) => parent.$('.single-element')));
     NativeSelectorList = $$(NativeSelector(browser => browser.$$('.list li')));
 }
 

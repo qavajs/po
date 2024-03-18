@@ -3,7 +3,15 @@
 All notable changes to the "@qavajs/po" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
- 
+
+:rocket: - new feature
+:beetle: - bugfix
+:x: - deprecation/removal
+:pencil: - chore
+
+## [1.10.0]
+- :rocket: added capability to pass parent element into NativeSelector
+
 ## [1.9.0]
 - :x: disabled auto-split arguments in selector function
 

@@ -130,12 +130,13 @@ When I click 'Component > Element (2)'
 
 ## Native framework selectors
 It is also possible to use driver-built capabilities to return element. You can pass handler that has access to
-current `browser` object.
+current `browser` and `parent` objects.
 ```javascript
 const { NativeSelector } = require('@qavajs/po');
 
 class Component {
     selector = '.container';
-    Element = $(NativeSelector(browser => browser.$('.single-element'))); 
+    Element = $(NativeSelector(browser => browser.$('.single-element')));
+    Element2 = $(NativeSelector((browser, parent) => parent.$('.single-element')));
 }
 ```
