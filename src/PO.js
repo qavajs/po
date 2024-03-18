@@ -27,7 +27,7 @@ class PO {
      * @public
      * @param {string} path - element query
      * @param {{immediate: boolean}} options - options
-     * @returns { import('webdriverio').ElementCommandsType|import('webdriverio').ElementArray }
+     * @returns { Promise<WebdriverIO.Element | WebdriverIO.ElementArray> }
      */
     async getElement(path, options = {immediate: false}) {
         if (!this.driver) throw new Error('Driver is not attached. Call po.init(driver)');
@@ -103,7 +103,7 @@ class PO {
         const poAlias = token.elementName.replace(/\s/g, '');
         const newPo = po[poAlias];
         const currentElement = newPo.ignoreHierarchy ? await this.driver : await element;
-        if (newPo.isNativeSelector) return [await newPo.selectorFunction(this.driver), newPo];
+        if (newPo.isNativeSelector) return [await newPo.selectorFunction(this.driver, currentElement), newPo];
         if (!newPo.selector) return [currentElement, newPo];
         newPo.resolvedSelector = this.resolveSelector(newPo.selector, token.param);
         this.logger.log(`${poAlias} -> ${newPo.resolvedSelector}`);
