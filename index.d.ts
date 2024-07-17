@@ -4,7 +4,9 @@ declare interface Logger {
 declare type PageObject = {
     init(driver: WebdriverIO.Browser, options?: { timeout?: number, logger?: Logger }): void;
     register(pageObject: Object): void;
-    getElement(path: string, options?: {immediate: boolean}): WebdriverIO.Element | WebdriverIO.Element[]
+    getElement(path: string, options?: { immediate: boolean }): WebdriverIO.Element | WebdriverIO.ElementArray;
+    setDriver(driver: WebdriverIO.Browser): void;
+    driver: WebdriverIO.Browser;
 }
 declare module '@qavajs/po' {
     let po: PageObject;
@@ -15,11 +17,11 @@ declare module '@qavajs/po' {
     function NativeSelector(selectorFunction: (browser: WebdriverIO.Browser, parent: WebdriverIO.Element) => WebdriverIO.Element): any;
     function $(
       selector: string | Object,
-      options?: { ignoreHierarchy: boolean }
+      options?: { ignoreHierarchy?: boolean }
     ): Object;
     function $$(
       selector: string | Object,
-      options?: { ignoreHierarchy: boolean }
+      options?: { ignoreHierarchy?: boolean }
     ): Object;
     export { $, $$, po, Component, Selector, NativeSelector }
 }
