@@ -12,14 +12,20 @@ const defaultLogger = {
 
 class PO {
 
-    init(driver, options = {timeout: 2000}) {
+    /**
+     * Init page object instance
+     * @public
+     * @param {WebdriverIO.Browser} driver - instance of WebdriverIO browser
+     * @param {{timeout: number, logger: Logger}} options - options
+     */
+    init(driver, options = {timeout: 2000, logger: defaultLogger}) {
         /**
          * @type { import('webdriverio').Browser }
          */
         this.driver = driver;
         this.config = {};
-        this.config.timeout = options.timeout;
-        this.logger = options.logger ?? defaultLogger;
+        this.config.timeout = options?.timeout ?? 2000;
+        this.logger = options?.logger ?? defaultLogger;
     }
 
     /**
@@ -71,10 +77,23 @@ class PO {
         if (element) return element;
     }
 
-    register(obj) {
-        for (const prop in obj) {
-            this[prop] = obj[prop]
+    /**
+     * Register page object instance
+     * @public
+     * @param {Object} pageObject - page object instance
+     */
+    register(pageObject) {
+        for (const prop in pageObject) {
+            this[prop] = pageObject[prop]
         }
+    }
+
+    /**
+     * Set driver instance
+     * @param {WebdriverIO.Browser} driver - instance of WebdriverIO browser
+     */
+    setDriver(driver) {
+        this.driver = driver;
     }
 
     /**

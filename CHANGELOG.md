@@ -9,6 +9,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation/removal
 :pencil: - chore
 
+## [1.11.0]
+- :rocket: added _setDriver_ method
+
 ## [1.10.0]
 - :rocket: added capability to pass parent element into NativeSelector
 
