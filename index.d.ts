@@ -28,7 +28,7 @@ declare type PageObject = {
      * const element = await po.getElement('Element');
      * const collection = await po.getElement('Component > Collection');
      */
-    getElement(path: string, options?: { immediate?: boolean }): WebdriverIO.Element | WebdriverIO.ElementArray;
+    getElement(path: string, options?: { immediate?: boolean }): Promise<WebdriverIO.Element & WebdriverIO.ElementArray>;
     /**
      * Set new driver instance
      * @param {WebdriverIO.Browser} driver
