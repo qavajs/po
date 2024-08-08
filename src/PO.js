@@ -16,9 +16,9 @@ class PO {
      * Init page object instance
      * @public
      * @param {WebdriverIO.Browser} driver - instance of WebdriverIO browser
-     * @param {{timeout: number, logger: Logger}} options - options
+     * @param {{timeout?: number, logger?: Logger}} [options] - options
      */
-    init(driver, options = {timeout: 2000, logger: defaultLogger}) {
+    init(driver, options) {
         /**
          * @type { import('webdriverio').Browser }
          */
@@ -26,6 +26,7 @@ class PO {
         this.config = {};
         this.config.timeout = options?.timeout ?? 2000;
         this.logger = options?.logger ?? defaultLogger;
+        this.pageObject = {};
     }
 
     /**
@@ -33,7 +34,7 @@ class PO {
      * @public
      * @param {string} path - element query
      * @param {{immediate: boolean}} options - options
-     * @returns { Promise<WebdriverIO.Element | WebdriverIO.ElementArray> }
+     * @returns { Promise<WebdriverIO.Element & WebdriverIO.ElementArray> }
      */
     async getElement(path, options = {immediate: false}) {
         if (!this.driver) throw new Error('Driver is not attached. Call po.init(driver)');
@@ -69,7 +70,7 @@ class PO {
     async findElement(path) {
         const tokens = parseTokens(path);
         let element = this.driver;
-        let po = this;
+        let po = this.pageObject;
         while (tokens.length > 0) {
             const token = tokens.shift();
             [element, po] = await this.getEl(element, po, token);
@@ -83,9 +84,7 @@ class PO {
      * @param {Object} pageObject - page object instance
      */
     register(pageObject) {
-        for (const prop in pageObject) {
-            this[prop] = pageObject[prop]
-        }
+        this.pageObject = pageObject;
     }
 
     /**
@@ -102,7 +101,7 @@ class PO {
      */
     checkPO(path) {
         const poTokens = parseTokens(path);
-        let po = this;
+        let po = this.pageObject;
         for (const token of poTokens) {
             po = po[token.elementName.replace(/\s/g, '')];
             if (!po) throw new Error(`Element '${token.elementName}' is not found in page object`);

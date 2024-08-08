@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const {remote} = require('webdriverio');
 const po = require('../src/PO');
 const samplePO = require('./samplePO');
