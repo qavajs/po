@@ -11,9 +11,9 @@ class Token {
             this.value = value.slice(0, value.length - 1);
         }
         if (elementName.includes('(')) {
-            const [name, param] = elementName.replace(')', '').split(/\s+\(/);
+            const [name, param] = elementName.split(/\s+\(/, 2);
             this.elementName = name;
-            this.param = [param.replace(/([()]|^\s)/g, '')];
+            this.param = [param.replace(/(\)$)/g, '')];
         }
     }
 

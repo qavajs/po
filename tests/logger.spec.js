@@ -1,5 +1,5 @@
 import {afterAll, beforeAll, describe, expect, test, beforeEach} from 'vitest';
-import {remote, $} from 'webdriverio';
+import {remote} from 'webdriverio';
 import poLogger from '../src/PO';
 import samplePO from './samplePO';
 import path from 'path';
@@ -18,7 +18,6 @@ describe('logger', () => {
 	beforeAll(async () => {
 		const driver = await remote({
 			logLevel: 'warn',
-			automationProtocol: 'devtools',
 			capabilities: {
 				browserName: 'chrome',
 				'goog:chromeOptions': {

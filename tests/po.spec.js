@@ -206,6 +206,11 @@ describe('page object', () => {
         expect(collection.length).toBe(6);
     });
 
+    test('parenthesis in parameter', async () => {
+        const element = await po.getElement('Async Component By Selector (#async-list-components li:nth-child(1))');
+        expect(await element.getText()).toEqual('async 1');
+    });
+
     afterAll(async () => {
         await po.driver.deleteSession();
     });

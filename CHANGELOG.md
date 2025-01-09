@@ -9,6 +9,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation/removal
 :pencil: - chore
 
+## [1.12.1]
+- :beetle: fixed parameter parser to support parenthesis
+
 ## [1.12.0]
 - :rocket: updated getElement return type to union one `Promise<WebdriverIO.Element & WebdriverIO.ElementArray>`
 
